@@ -13,6 +13,7 @@ import setAuthorizationToken from './utils/setAuthorizationToken';
 import { setCurrentUser } from './actions/authActions';
 import jwt from 'jsonwebtoken';
 
+// Create and Initialize and create a Redux Store
 export const store = createStore (
     rootReducer,
     compose (
@@ -21,12 +22,14 @@ export const store = createStore (
     )
 );
 
+// If localstorage is populated, append token to all requests
 if (localStorage.jwtToken) {
     setAuthorizationToken(localStorage.jwtToken);
     store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));
 }
 
 ReactDOM.render(
+    // Include Redux store into all Routes
     <Provider store={store}>
         <App />
     </Provider>,

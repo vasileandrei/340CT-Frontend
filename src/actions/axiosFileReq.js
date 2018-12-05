@@ -1,3 +1,5 @@
+// Axios Request File - File Download - Upload
+
 import axios from 'axios';
 import { UPLOAD_REQ, DOWNLOAD_REQ } from './types';
 
@@ -7,9 +9,13 @@ const headers = {
         'Content-Type': 'multipart/form-data'
     }
 };
-// https___res.cloudinary.com_dpjue1flf_image_upload_v1543943057_340CT_1543943059758,image1.jpg.jpg
-// 'https://res.cloudinary.com/dpjue1flf/image/upload/v1543756584/340CT/1543756584418-image1.jpg.jpg',
-// com_dpjue1flf_image_upload_v1543943313_340CT_1543943315793-image1
+
+/**
+ * Generate downloaded image name on client side
+ *
+ * @param {*} currentName
+ * @returns
+ */
 function getFileName(currentName) {
     const nameList = currentName.split('.');
     const listLength = nameList.length;
@@ -18,14 +24,30 @@ function getFileName(currentName) {
 }
 
 
+/**
+ * IF UPLOAD_REQ   - Uplaod request
+ * IF DOWNLOAD_REQ - Download reaquest
+ *
+ * @export
+ * @param {string} action
+ * @param {string} token
+ * @param {string} file
+ * @param {string} username
+ * @param {string} email
+ * @returns []
+ */
 export default function(action, token, file, username, email) {
+    // Upload new file
     if (action === UPLOAD_REQ) {
+        // Set Auth token
         headers.headers['Authorization'] = token;
         return new Promise((resolve, reject) => {
             let message;
             let redirect = false;
             let currentFile;
+            // Create FormData to store image data
             const data = new FormData();
+            // Use <image> for unique identifier name
             data.append('image', file);
             const api_uri = `http://localhost:8085/api/v1/files/upload/${username}/${email}`;
             axios({
@@ -38,19 +60,19 @@ export default function(action, token, file, username, email) {
             .then(res => {
                 const respJS = JSON.parse(res.data.content.text);
                 if (respJS.hasBeenSuccessful === true){
-                    redirect = true;
-                    message = respJS.content.message;
-                    currentFile = respJS.content.fileInfo;
+                    redirect = true; // after receive response redirect to next page
+                    message = respJS.content.message; // mesage to display
+                    currentFile = respJS.content.fileInfo; // current file to be altered to Redux
                 }
                 resolve([message, redirect, currentFile]);
             })
             .catch(error => reject(error.message));
         });
+    // Download existing file
     } else if (action === DOWNLOAD_REQ) {
         return new Promise((resolve, reject) => {
             let message;
             const newFileName = getFileName(file);
-            console.log(newFileName);
             axios.get(file, {
                     responseType: 'blob' // important
                 })
@@ -58,11 +80,11 @@ export default function(action, token, file, username, email) {
                     const url = window.URL.createObjectURL(new Blob([response.data]));
                     const link = document.createElement('a');
                     link.href = url;
-                    link.setAttribute('download', newFileName);
+                    link.setAttribute('download', newFileName); // Set attribute and file name
                     document.body.appendChild(link);
                     link.click();
                     message = 'Sucessfully downloaded';
-                    resolve(message);
+                    resolve(message); // Send message as a response
                 })
                 .catch(error => reject(error.message));
         });

@@ -1,3 +1,5 @@
+// Generate a new Token Axios Request
+
 import axios from 'axios';
 
 const headers = {
@@ -6,6 +8,13 @@ const headers = {
     }
 };
 
+/**
+ * Request to generate a new user token
+ *
+ * @export
+ * @param {object} user
+ * @returns {string} newToken
+ */
 export default function(user) {
     return new Promise((resolve, reject) => {
         let newToken;
@@ -18,7 +27,7 @@ export default function(user) {
             if (res.data.hasBeenSuccessful === true) {
                 newToken = res.data.content.token;
             }
-            resolve(newToken);
+            resolve(newToken); // newly generated token
         })
         .catch(error => reject(error.message));
     });

@@ -14,12 +14,19 @@ import Profile from './components/Profile/Profile';
 
 class App extends Component {
 
+    /**
+     * Universal toast message displayer
+     *
+     * @param {String} message
+     * @memberof App
+     */
     notify(message) {
         toast(message, { className: 'toast' });
     }
 
     render() {
         return (
+            // Initialize Routing Model
             <BrowserRouter>
             <div>
                 <Header toast={this.notify} />
