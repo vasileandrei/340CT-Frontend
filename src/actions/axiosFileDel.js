@@ -1,3 +1,4 @@
+// Axios Request File - Soft-delete a file
 
 import axios from 'axios';
 import { DELETE_REQ } from './types';
@@ -8,6 +9,14 @@ const headers = {
     }
 };
 
+/**
+ *
+ *
+ * @export
+ * @param {string} action
+ * @param {string} id
+ * @returns bool
+ */
 export default function deleteFile(action, id) {
     if (action === DELETE_REQ) {
         return new Promise((resolve, reject) => {

@@ -1,3 +1,5 @@
+// Axios Request to update token
+
 import axios from 'axios';
 
 const headers = {
@@ -6,6 +8,13 @@ const headers = {
     }
 };
 
+/**
+ * Update or alter existing token
+ *
+ * @export
+ * @param {String} token
+ * @returns [{Object} user, {String} newToken]
+ */
 export default function(token) {
     return new Promise((resolve, reject) => {
         let newToken;
@@ -19,8 +28,8 @@ export default function(token) {
         .then(res => {
             // const respJS = JSON.parse(res.data.content.text);
             if (res.data.hasBeenSuccessful === true){
-                newToken = res.data.content.token;
-                user = res.data.content.user;
+                newToken = res.data.content.token; // Newly generated token
+                user = res.data.content.user; // Newly generated Redux Storage User
             }
             resolve([user, newToken]);
         })
