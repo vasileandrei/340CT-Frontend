@@ -7,25 +7,25 @@
 ifneq (,$(findstring master, $(TRAVIS_BRANCH)))
 $(info This is a Master Build)
 .PHONY: all
-all: master deploy-local
+all: master deploy-local check-deploy
 
 # Develop Branch
 else ifneq (,$(findstring develop, $(TRAVIS_BRANCH)))
 $(info This is a Develop Build)
 .PHONY: all
-all: develop deploy-local
+all: develop deploy-local check-deploy
 
 # Pull Request
 else ifneq ($(TRAVIS_PULL_REQUEST_BRANCH),)
 $(info This is a Pull Request Build)
 .PHONY: all
-all: pull-request deploy-local
+all: pull-request deploy-local check-deploy
 
 # Regular Branch
 else
 $(info This is a push build, branch: $(TRAVIS_BRANCH))
 .PHONY: all
-all: branch deploy-local
+all: branch deploy-local check-deploy
 endif
 
 
@@ -59,3 +59,7 @@ branch:
 deploy-local:
 	ls -la
 	bash scripts/deployServer.sh -n ${SERVER_FILE}
+
+.PHONY: check-deploy
+check-deploy:
+	echo "Checking deploy status" && curl -i localhost:${SERVER_PORT}
