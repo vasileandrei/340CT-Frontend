@@ -8,7 +8,8 @@ const headers = {
     }
 };
 
-export default function deleteFile(action, email, id, fullName, message) {
+export default function deleteFile(action, token, email, id, fullName, message) {
+    headers.headers['Authorization'] = token;
     if (action === CUSTOMER_EMAIL) {
         return new Promise((reject) => {
             const api_uri = 'http://localhost:8080/GatewayApi/email/customer/';

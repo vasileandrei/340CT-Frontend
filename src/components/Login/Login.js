@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, FormGroup, FormControl } from 'react-bootstrap';
+import { Button, FormGroup, FormControl, Checkbox } from 'react-bootstrap';
 import { SyncLoader } from 'react-spinners';
 import { CSSTransition } from 'react-transition-group';
 import { connect } from 'react-redux';
@@ -28,7 +28,8 @@ class Login extends Component {
             appearLogin: true,
             show: true,
             showClass: '',
-            loading: false
+            loading: false,
+            rememberMeLogin: false
         };
 
         this.logout = this.logout.bind(this);
@@ -48,6 +49,18 @@ class Login extends Component {
         if (this.state.username.length > zero && this.state.password.length > zero) {
             return true;
         }
+    }
+
+    toggleRememberLogin = (event) => {
+        const target = event.target;
+        // event.preventDefault();
+        // this.setState({
+        //     rememberMeLogin: !this.state.rememberMeLogin
+        // });
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        this.setState({
+            rememberMeLogin: value
+        });
     }
 
     // handle changes in the two fields
@@ -79,7 +92,8 @@ class Login extends Component {
 
         const username = this.state.username;
         const password = this.state.password;
-        const response = await axiosReq('login', username, password);
+        const remember = this.state.rememberMeLogin;
+        const response = await axiosReq('login', username, password, remember);
         this.setState({
             message: response[messageIndex],
             loading: false
@@ -102,6 +116,8 @@ class Login extends Component {
         const { isAuthenticated } = this.props.auth;
         let guestLinks =
         <div>
+            <Checkbox type="checkbox" name="rememberLogin"
+                onChange={this.toggleRememberLogin}>Remember Me</Checkbox>
             <Button type="submit" name="submit" disabled={!this.validateForm}
                 onClick={this.showFlashMessage}>Login</Button>
             <Button onClick={this.props.registerRender} value="Register" >Register</Button>

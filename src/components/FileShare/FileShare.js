@@ -76,12 +76,17 @@ class FileShare extends Component {
         store.dispatch(setCurrentUser(user));
     }
 
-    checkExpire = (expires) => {
-        const currentTime = Date.now();
-        if (currentTime > expires) {
-            return true;
+    checkExpire = (file) => {
+        if (typeof file !== 'undefined'){
+            const time = file.expires;
+            const currentTime = Date.now();
+            if (currentTime > time) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -105,7 +110,7 @@ class FileShare extends Component {
         const userIndex = 0;
         const tokenIndex = 1;
 
-        const expired = this.checkExpire(currentFile.expires);
+        const expired = this.checkExpire(currentFile);
         if (expired) {
             this.setState({
                 message: 'File expired. It can no longer be downloaded.',
@@ -126,7 +131,7 @@ class FileShare extends Component {
                 // Clear current redux store
                 this.props.logout();
                 // Initiate download
-                let message = await downloadReq('download', currentFile.url);
+                let message = await downloadReq('download', token, currentFile.url);
                 if (!message) {
                     message = 'Failed to download';
                 }

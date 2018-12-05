@@ -7,6 +7,15 @@ const headers = {
         'Content-Type': 'multipart/form-data'
     }
 };
+// https___res.cloudinary.com_dpjue1flf_image_upload_v1543943057_340CT_1543943059758,image1.jpg.jpg
+// 'https://res.cloudinary.com/dpjue1flf/image/upload/v1543756584/340CT/1543756584418-image1.jpg.jpg',
+// com_dpjue1flf_image_upload_v1543943313_340CT_1543943315793-image1
+function getFileName(currentName) {
+    const nameList = currentName.split('.');
+    const listLength = nameList.length;
+    const fileName = `FileShare-${nameList[listLength-3]}.${nameList[listLength-1]}`;
+    return fileName;
+}
 
 
 export default function(action, token, file, username, email) {
@@ -40,6 +49,8 @@ export default function(action, token, file, username, email) {
     } else if (action === DOWNLOAD_REQ) {
         return new Promise((resolve, reject) => {
             let message;
+            const newFileName = getFileName(file);
+            console.log(newFileName);
             axios.get(file, {
                     responseType: 'blob' // important
                 })
@@ -47,7 +58,7 @@ export default function(action, token, file, username, email) {
                     const url = window.URL.createObjectURL(new Blob([response.data]));
                     const link = document.createElement('a');
                     link.href = url;
-                    link.setAttribute('download', 'image.jpg');
+                    link.setAttribute('download', newFileName);
                     document.body.appendChild(link);
                     link.click();
                     message = 'Sucessfully downloaded';
