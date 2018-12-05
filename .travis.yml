@@ -17,3 +17,6 @@ before-script:
 
 script:
   - make
+
+after_success:
+  - codecov --file coverage/lcov.info --disable search
