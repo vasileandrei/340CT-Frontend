@@ -8,8 +8,14 @@ n) NAME=${OPTARG};;
 esac
 done
 
+function printExampleUsage {
+    echo -e "# Example usage:
+    #   ./scripts/coverage -n 340ct"
+}
+
 if [ -z ${NAME} ]; then
     echo "Please enter a common name on the API Servers. Please use flag -n <name>"
+    printExampleUsage
     exit 1
 fi
 
