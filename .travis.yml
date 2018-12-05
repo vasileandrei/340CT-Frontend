@@ -1,0 +1,17 @@
+
+language: node_js
+node_js:
+  - '10'
+
+services: 
+  - docker
+
+before_install:
+  - npm update
+  - npm install -g react-scripts
+
+before-script:
+  - chmod +x scripts/deployServer.sh
+
+script:
+  - make
