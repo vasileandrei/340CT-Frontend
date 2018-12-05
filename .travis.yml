@@ -6,6 +6,10 @@ node_js:
 services: 
   - docker
 
+before_install:
+  - npm update
+  - npm install -g react-scripts
+
 before-script:
   - chmod +x scripts/deployServer.sh
 

@@ -29,8 +29,9 @@ if [ -z ${NAME} ]; then
 fi
 
 for x in $(ls -a); do
-    if [[ ${x,,} =~ ${NAME,,} ]]; then      
+    if [[ ${x,,} =~ ${NAME,,} ]]; then  
         echo "Starting server ${x}" && cd ${baseDir}/${x}  && npm start &
+        sleep 20    
     fi
 done
 
