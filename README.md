@@ -1,4 +1,4 @@
-ter
+master
 
 <br />
 
@@ -15,7 +15,7 @@ develop
 [![Build Status](https://travis-ci.com/vasileandrei/340CT-Frontend.png?branch=develop)](https://travis-ci.com/vasileandrei/340CT-Frontend?branch=develop)
 
 [![codecov](https://codecov.io/gh/vasileandrei/340CT-Frontend/branch/develop/graph/badge.svg)](https://codecov.io/gh/vasileandrei/340CT-Frontend?branch=develop)
-Frontend
+
 <br />
 
 # 340CT-Frontend
