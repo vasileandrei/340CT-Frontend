@@ -9,9 +9,14 @@ services:
 before_install:
   - npm update
   - npm install -g react-scripts
+  - npm install -g codecov
 
 before-script:
   - chmod +x scripts/deployServer.sh
+  - chmod +x scripts/coverage.sh
 
 script:
   - make
+
+after_success:
+  - codecov --file coverage/lcov.info --disable search

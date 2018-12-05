@@ -7,13 +7,13 @@
 ifneq (,$(findstring master, $(TRAVIS_BRANCH)))
 $(info This is a Master Build)
 .PHONY: all
-all: master deploy-local check-deploy
+all: master coverage deploy-local check-deploy
 
 # Develop Branch
 else ifneq (,$(findstring develop, $(TRAVIS_BRANCH)))
 $(info This is a Develop Build)
 .PHONY: all
-all: develop deploy-local check-deploy
+all: develop coverage deploy-local check-deploy
 
 # Pull Request
 else ifneq ($(TRAVIS_PULL_REQUEST_BRANCH),)
@@ -52,12 +52,21 @@ branch:
 
 
 ######################
+#    BASIC TESTS     #
+######################
+
+.PHONY: coverage
+coverage:
+	bash scripts/coverage.sh -n ${SERVER_FILE}
+
+
+
+######################
 #    DEPLOY          #
 ######################
 
 .PHONY: deploy-local
 deploy-local:
-	ls -la
 	bash scripts/deployServer.sh -n ${SERVER_FILE}
 
 .PHONY: check-deploy
