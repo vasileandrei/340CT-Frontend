@@ -7,25 +7,25 @@
 ifneq (,$(findstring master, $(TRAVIS_BRANCH)))
 $(info This is a Master Build)
 .PHONY: all
-all: master
+all: master deploy-local
 
 # Develop Branch
 else ifneq (,$(findstring develop, $(TRAVIS_BRANCH)))
 $(info This is a Develop Build)
 .PHONY: all
-all: develop
+all: develop deploy-local
 
 # Pull Request
 else ifneq ($(TRAVIS_PULL_REQUEST_BRANCH),)
 $(info This is a Pull Request Build)
 .PHONY: all
-all: pull-request
+all: pull-request deploy-local
 
 # Regular Branch
 else
 $(info This is a push build, branch: $(TRAVIS_BRANCH))
 .PHONY: all
-all: branch
+all: branch deploy-local
 endif
 
 
@@ -33,19 +33,19 @@ endif
 #    BRANCH CONTROL     #
 #########################
 
-.PHONY: master deploy-local
+.PHONY: master
 master:
 	echo 'This is Master'
 	
-.PHONY: develop deploy-local
+.PHONY: develop
 develop:
 	echo 'This is Develop'
 
-.PHONY: pull-request deploy-local
+.PHONY: pull-request
 pull-request:
 	echo 'This is a Pull-Request'
 
-.PHONY: branch deploy-local
+.PHONY: branch
 branch:
 	echo 'This is a regular branch'
 
