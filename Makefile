@@ -35,7 +35,7 @@ endif
 
 .PHONY: master
 master:
-	echo 'This is Master'
+	echo 'This is Master. Build is being deployed on Heroku'
 	
 .PHONY: develop
 develop:
@@ -57,7 +57,7 @@ branch:
 
 .PHONY: coverage
 coverage:
-	bash scripts/coverage.sh -n ${SERVER_FILE}
+	bash scripts/coverage.sh
 
 
 
@@ -67,7 +67,8 @@ coverage:
 
 .PHONY: deploy-local
 deploy-local:
-	bash scripts/deployServer.sh -n ${SERVER_FILE}
+	echo "Deploying server locally " && npm start &
+	sleep 20
 
 .PHONY: check-deploy
 check-deploy:

@@ -15,7 +15,6 @@ import deleteFile from './../../actions/axiosFileDel';
 import downloadReq from './../../actions/axiosFileReq';
 import deleteReq from './../../utils/markAsDeleted';
 import setAuthorizationToken from './../../utils/setAuthorizationToken';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import './FileShare.css';
 
 const domainName = 'localhost:3000';
