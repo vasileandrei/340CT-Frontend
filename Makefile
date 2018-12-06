@@ -67,7 +67,7 @@ coverage:
 
 .PHONY: deploy-local
 deploy-local:
-	bash scripts/deployServer.sh
+	echo "Deploying server locally " && npm start
 
 .PHONY: check-deploy
 check-deploy:
