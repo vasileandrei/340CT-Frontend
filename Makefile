@@ -57,7 +57,7 @@ branch:
 
 .PHONY: coverage
 coverage:
-	bash scripts/coverage.sh -n ${SERVER_FILE}
+	bash scripts/coverage.sh
 
 
 
@@ -67,7 +67,7 @@ coverage:
 
 .PHONY: deploy-local
 deploy-local:
-	bash scripts/deployServer.sh -n ${SERVER_FILE}
+	bash scripts/deployServer.sh
 
 .PHONY: check-deploy
 check-deploy:
